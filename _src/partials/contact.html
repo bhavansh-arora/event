@@ -1,0 +1,83 @@
+    <!-- Contact / Lead form -->
+    <section class="section contact" id="contact">
+      <div class="container contact-grid">
+        <div class="contact-copy">
+          <p class="eyebrow reveal"><span class="line"></span> Start here</p>
+          <h2 class="reveal">Tell us about your function.<br/><em>We'll call you back.</em></h2>
+          <p class="lead reveal">Answer 3 quick questions. We'll send ideas and a free quote on WhatsApp within 2 hours.</p>
+          <ul class="contact-points reveal">
+            <li><span>✦</span> Reply from a senior planner, not a bot</li>
+            <li><span>✦</span> No obligation, no spam calls</li>
+            <li><span>✦</span> Hindi, English &amp; Punjabi spoken</li>
+          </ul>
+          <div class="quick-contact reveal">
+            <a href="tel:{{TEL}}" class="qc"><svg width="22" height="22"><use href="#phone"/></svg><div><small>Call us</small><b>{{PHONE}}</b></div></a>
+            <a href="#" class="qc qc-wa js-wa" data-msg="Namaste! I'd like a quote for my event."><svg width="22" height="22"><use href="#wa"/></svg><div><small>WhatsApp</small><b>Chat instantly</b></div></a>
+          </div>
+        </div>
+
+        <div class="form-card reveal">
+          <div class="form-progress"><i id="formBar"></i></div>
+          <form id="leadForm" novalidate>
+            <fieldset class="f-step active" data-step="1">
+              <legend><span>Step 1 of 3</span>What are you celebrating?</legend>
+              <div class="choice-grid">
+                <label class="choice"><input type="radio" name="type" value="Wedding" required /><span><i>💍</i>Shaadi</span></label>
+                <label class="choice"><input type="radio" name="type" value="Haldi" /><span><i>🌼</i>Haldi</span></label>
+                <label class="choice"><input type="radio" name="type" value="Mehendi" /><span><i>🌿</i>Mehendi</span></label>
+                <label class="choice"><input type="radio" name="type" value="Sangeet" /><span><i>💃</i>Sangeet</span></label>
+                <label class="choice"><input type="radio" name="type" value="Engagement" /><span><i>💞</i>Roka / Engagement</span></label>
+                <label class="choice"><input type="radio" name="type" value="Birthday" /><span><i>🎂</i>Birthday</span></label>
+                <label class="choice"><input type="radio" name="type" value="Diwali" /><span><i>🪔</i>Diwali / Office party</span></label>
+                <label class="choice"><input type="radio" name="type" value="Other" /><span><i>🎉</i>Other</span></label>
+              </div>
+              <button type="button" class="btn btn-gold btn-block f-next">Continue →</button>
+            </fieldset>
+
+            <fieldset class="f-step" data-step="2">
+              <legend><span>Step 2 of 3</span>The basics</legend>
+              <div class="f-row">
+                <label class="field"><span>Event date</span><input type="date" name="date" /></label>
+                <label class="field"><span>City</span><input type="text" name="city" placeholder="e.g. Delhi, Jaipur" required /></label>
+              </div>
+              <label class="field"><span>Number of guests</span>
+                <select name="guests" required>
+                  <option value="">Select…</option>
+                  <option>Up to 50</option><option>50–150</option><option>150–300</option><option>300–600</option><option>600+</option>
+                </select>
+              </label>
+              <label class="field"><span>Budget</span>
+                <div class="range-wrap">
+                  <input type="range" name="budget" min="0" max="5" step="1" value="2" id="budget" />
+                  <output id="budgetOut">₹3 L – ₹10 L</output>
+                </div>
+              </label>
+              <div class="f-nav">
+                <button type="button" class="btn btn-text f-back">← Back</button>
+                <button type="button" class="btn btn-gold f-next">Continue →</button>
+              </div>
+            </fieldset>
+
+            <fieldset class="f-step" data-step="3">
+              <legend><span>Step 3 of 3</span>Where should we send your quote?</legend>
+              <label class="field"><span>Your name</span><input type="text" name="name" autocomplete="name" required placeholder="e.g. Priya Sharma" /></label>
+              <label class="field"><span>Mobile / WhatsApp number</span><input type="tel" name="phone" autocomplete="tel" required placeholder="98765 43210" pattern="[0-9 +\-]{10,15}" /></label>
+              <label class="field"><span>Anything else? <em>(optional)</em></span><textarea name="notes" rows="2" placeholder="Theme, venue, special requests…"></textarea></label>
+              <div class="f-nav">
+                <button type="button" class="btn btn-text f-back">← Back</button>
+                <button type="submit" class="btn btn-wa"><svg width="18" height="18"><use href="#wa"/></svg> Send on WhatsApp</button>
+              </div>
+              <p class="f-fine">This opens WhatsApp with your details filled in. Just tap send.</p>
+            </fieldset>
+
+            <div class="f-success" id="fSuccess" hidden>
+              <div class="success-mark"><svg><use href="#mark"/></svg></div>
+              <h3>Dhanyavaad, <span id="sName">ji</span>!</h3>
+              <p>WhatsApp has opened with your details. Just tap <b>send</b>, and our planner will reply within 2 hours. If it didn't open, call us on <a href="tel:{{TEL}}">{{PHONE}}</a>.</p>
+              <a href="gallery.html" class="btn btn-outline">See our gallery meanwhile</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+

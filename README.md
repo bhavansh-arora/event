@@ -1,23 +1,34 @@
 # Utsava: Weddings & Celebrations
 
-A conversion-focused website for an Indian wedding and event planning company. It covers Haldi, Mehendi, Sangeet,
-Shaadi, Roka, Baraat, birthdays, Diwali and office parties, Dandiya nights and Holi parties.
+A multi-page website for an Indian wedding and event planning company. It is static HTML/CSS/JS, served by GitHub Pages.
 
-It is static HTML, CSS and JS with no build step. Open `index.html`, or turn on GitHub Pages (Settings → Pages → `main`).
+| Page | What's on it |
+|---|---|
+| `index.html` | Home: hero, ceremonies, gallery preview, reviews, packages, quote form |
+| `weddings.html` | Roka → Haldi → Mehendi → Sangeet → Baraat → Pheras → Reception, plus destination weddings |
+| `celebrations.html` | Birthdays, Diwali & office parties, Dandiya, Holi, family functions, corporate events |
+| `gallery.html` | 32-photo gallery with filters and full-screen viewer |
+| `packages.html` | Price cards, comparison table, add-ons, pricing FAQ |
+| `about.html` | Story, values, team |
+| `contact.html` | Quote form, call/WhatsApp/email, map, FAQ |
 
-## Before going live: change these
-1. **WhatsApp number:** `WHATSAPP_NUMBER` at the top of `assets/js/main.js` (country code, no `+`, e.g. `919812345678`).
-2. **Phone number:** search `index.html` for `+91 98765 43210` / `+919876543210` and replace it.
-3. **Address, email, Instagram handle, reviews and stats** in `index.html`.
-4. **Photos:** these are free Pexels stock photos (no attribution required). Replacing them with the owner's real event photos converts best.
+## Editing the site
+The pages in the repo root are **generated**. Edit the source, then rebuild:
+
+```
+python3 _src/build.py
+```
+
+- `_src/build.py`: **phone number and WhatsApp number** (`CONFIG` at the top). Change them once and every page updates.
+- `_src/pages/`: one file per page (title, description and hero text at the top of each)
+- `_src/partials/`: shared blocks (header, footer, quote form, reviews, packages and so on)
+- `assets/css/styles.css`, `assets/js/main.js`: styling and behaviour
 
 ## How leads work
-Every "Get quote" form submission opens **WhatsApp** on the visitor's phone with all the details pre-filled
-(event, date, city, guests, budget, name, number), addressed to the owner's number.
-No server or monthly fees are needed, and leads land directly in the owner's WhatsApp.
+Every quote form and WhatsApp button opens WhatsApp addressed to the owner's number, with the event, date, city,
+guests, budget, name and phone already typed. Links like `contact.html?type=Haldi` pre-select the event type.
 
-## Structure
-- `index.html`: all sections
-- `assets/css/styles.css`: styling
-- `assets/js/main.js`: WhatsApp links, lead form, gallery filter and lightbox, slider, animations
-- `assets/img/logo.svg`, `assets/img/logo-mark.svg`, `favicon.svg`: diya logo
+## Before going live
+Replace the placeholder phone/WhatsApp number in `_src/build.py`, the address and email in `_src/partials/footer.html`
+and `_src/pages/contact.html`, and the sample reviews, team names and stats. The photos are free Pexels stock images;
+the owner's own event photos will convert best.
