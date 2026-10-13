@@ -1,3 +1,6 @@
+/* ====== EDIT THESE: the owner's WhatsApp number (country code, no + or spaces) ====== */
+const WHATSAPP_NUMBER = '919876543210';
+
 (() => {
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
@@ -26,6 +29,17 @@
   };
   burger.addEventListener('click', () => toggleMenu(!links.classList.contains('open')));
   $$('a', links).forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+  /* WhatsApp links */
+  const waLink = (msg) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  $$('.js-wa').forEach(a => {
+    a.href = waLink(a.dataset.msg || 'Namaste!');
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+
+  /* Duplicate photo strips for a seamless loop */
+  $$('.strip-track').forEach(t => { t.innerHTML += t.innerHTML.replace(/alt="[^"]*"/g, 'alt="" aria-hidden="true"'); });
 
   /* Hero sparkles */
   const sp = $('.sparkles');
@@ -133,7 +147,7 @@
   }));
   $$('input, select', form).forEach(el => el.addEventListener('input', () => el.closest('.field')?.classList.remove('invalid')));
 
-  const budgets = ['Under $10k', '$10k – $25k', '$25k – $50k', '$50k – $100k', '$100k – $250k', '$250k+'];
+  const budgets = ['Under ₹1 L', '₹1 L – ₹3 L', '₹3 L – ₹10 L', '₹10 L – ₹25 L', '₹25 L – ₹50 L', '₹50 L+'];
   const budget = $('#budget'), out = $('#budgetOut');
   budget.addEventListener('input', () => out.textContent = budgets[budget.value]);
 
@@ -142,26 +156,56 @@
     const r = $(`input[name=type][value="${a.dataset.type}"]`, form);
     if (r) { r.checked = true; show(1); }
   }));
-  $$('[data-pkg]').forEach(a => a.addEventListener('click', () => {
-    form.package.value = a.dataset.pkg;
-  }));
+  let pkg = '';
+  $$('[data-pkg]').forEach(a => a.addEventListener('click', () => { pkg = a.dataset.pkg; }));
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!validate(steps[step])) return;
-    const data = Object.fromEntries(new FormData(form));
-    data.budget = budgets[data.budget];
-    // TODO: send `data` to your CRM / form endpoint (e.g. fetch('/api/leads', { method: 'POST', body: JSON.stringify(data) }))
-    console.log('Lead captured:', data);
+    const d = Object.fromEntries(new FormData(form));
+    const date = d.date ? new Date(d.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Not fixed yet';
+    const msg = [
+      'Namaste Utsava! 🙏 I would like a quote.',
+      '',
+      `*Event:* ${d.type}`,
+      `*Date:* ${date}`,
+      `*City:* ${d.city}`,
+      `*Guests:* ${d.guests}`,
+      `*Budget:* ${budgets[d.budget]}`,
+      pkg && `*Package:* ${pkg}`,
+      `*Name:* ${d.name}`,
+      `*Phone:* ${d.phone}`,
+      d.notes && `*Notes:* ${d.notes}`,
+    ].filter(Boolean).join('\n');
+    window.open(waLink(msg), '_blank');
     steps.forEach(s => s.classList.remove('active'));
-    $('#sName').textContent = (data.name || 'friend').split(' ')[0];
+    $('#sName').textContent = (d.name || 'ji').split(' ')[0] + ' ji';
     $('#fSuccess').hidden = false;
     bar.style.width = '100%';
   });
 
-  /* Newsletter */
-  $('#nlForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    e.target.innerHTML = '<span style="padding:10px 14px;color:#E8CF94">✦ You\'re on the list. Welcome!</span>';
+  /* Gallery lightbox */
+  const lb = $('#lightbox'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
+  let lbIdx = 0;
+  const visible = () => $$('.g-item:not(.hide)');
+  const openLb = (i) => {
+    const items = visible(); lbIdx = (i + items.length) % items.length;
+    const it = items[lbIdx], img = $('img', it);
+    lbImg.src = img.src.replace(/w=\d+/, 'w=1600');
+    lbImg.alt = img.alt;
+    lbCap.textContent = $('b', it)?.textContent || '';
+    lb.hidden = false; document.body.style.overflow = 'hidden';
+  };
+  const closeLb = () => { lb.hidden = true; document.body.style.overflow = ''; };
+  $$('.g-item').forEach(it => it.addEventListener('click', () => openLb(visible().indexOf(it))));
+  $('.lb-close').addEventListener('click', closeLb);
+  $('.lb-prev').addEventListener('click', () => openLb(lbIdx - 1));
+  $('.lb-next').addEventListener('click', () => openLb(lbIdx + 1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+  addEventListener('keydown', (e) => {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') openLb(lbIdx - 1);
+    if (e.key === 'ArrowRight') openLb(lbIdx + 1);
   });
 })();
